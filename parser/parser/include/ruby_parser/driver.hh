@@ -4,6 +4,8 @@
 #include <memory>
 #include <vector>
 
+#include "common/StableStringStorage.h"
+
 #include "builder.hh"
 #include "diagnostic.hh"
 #include "lexer.hh"
@@ -272,7 +274,7 @@ public:
     ForeignPtr ast;
     token_t last_token;
 
-    base_driver(ruby_version version, std::string_view source, std::vector<char> &scratch, const struct builder &builder);
+    base_driver(ruby_version version, std::string_view source, sorbet::StableStringStorage<> &scratch, const struct builder &builder);
     virtual ~base_driver() {}
     virtual ForeignPtr parse(SelfPtr self, bool trace) = 0;
 
@@ -299,7 +301,7 @@ public:
 
 class typedruby27 : public base_driver {
 public:
-    typedruby27(std::string_view source, std::vector<char> &scratch, const struct builder &builder);
+    typedruby27(std::string_view source, sorbet::StableStringStorage<> &scratch, const struct builder &builder);
     virtual ForeignPtr parse(SelfPtr self, bool trace);
     ~typedruby27() {}
 };
