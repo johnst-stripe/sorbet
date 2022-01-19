@@ -4,7 +4,7 @@
 using namespace ruby_parser;
 
 token::token(token_type type, size_t start, size_t end, std::string_view str)
-    : _type(type), _start(start), _end(end), _string(str) {}
+    : _start(start), _type(type), _size(clamp_size(end - start)), _string(str) {}
 
 token_type token::type() const {
     return _type;
@@ -15,7 +15,7 @@ size_t token::start() const {
 }
 
 size_t token::end() const {
-    return _end;
+    return _start + _size;
 }
 
 std::string_view token::view() const {

@@ -167,10 +167,18 @@ enum class token_type : int {
 };
 
 class token {
-    token_type _type;
     size_t _start;
-    size_t _end;
+    token_type _type;
+    uint32_t _size;
     std::string_view _string;
+
+    uint32_t clamp_size(size_t size) {
+        static const size_t max_uint32 = 0xffffffff;
+        if (size < max_uint32) {
+            return size;
+        }
+        return max_uint32;
+    }
 
 public:
     token(token_type type, size_t start, size_t end, std::string_view str);
